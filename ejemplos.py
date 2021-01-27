@@ -1,7 +1,7 @@
 from Automata_Finito import AFD
 
 
-Segundo_ejemplo = {
+ejemplo = {
 	'alfabeto':['i','f','t','h','e','n','l','s'],
 	'estados':['q0','q1','q2','q3','q4','q5','q6','q7','qf'],
 	'transiciones':{
@@ -17,7 +17,7 @@ Segundo_ejemplo = {
 	'estado_inical':'q0',
 	'estado_final':['qf']
 }
-grafo =  AFD(Segundo_ejemplo)
+grafo =  AFD(ejemplo)
 print(grafo)
 print(grafo.isAccept('if'))
 #print(grafo.isAccept('elfse'))
