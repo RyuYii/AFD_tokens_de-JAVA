@@ -70,7 +70,8 @@ class Aplicacion():
         self.tinfo.insert("1.0", f'{self.e1.get()}\n')
         print(f"First Name: {self.e1.get()}")
 
-
+    def add_grafo(self, grafo):
+        pass
 
 
 def main():
