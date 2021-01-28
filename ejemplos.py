@@ -19,7 +19,7 @@ ejemplo = {
 }
 grafo =  AFD(ejemplo)
 print(grafo)
-print(grafo.isAccept('if'))
+print(grafo.isAccept(''))
 #print(grafo.isAccept('elfse'))
 #print(grafo.isAccept('elsefi'))
 #print(grafo.isAccept('karmalanda'))

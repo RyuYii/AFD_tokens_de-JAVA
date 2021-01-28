@@ -2,7 +2,8 @@
 from Automata_Finito import AFD
 from tkinter import *
 from tkinter import ttk
-
+from tkinter import scrolledtext
+import time
 # La clase 'Aplicacion' ha crecido. En el ejemplo se incluyen
 # nuevos widgets en el método constructor __init__(): Uno de
 # ellos es el botón 'Info'  que cuando sea presionado llamará 
@@ -14,10 +15,10 @@ class Aplicacion():
         
         self.raiz = Tk()
         self.raiz.geometry('600x500')
-        
+        self.cont = 0
         #self.raiz.resizable(width=False,height=False)
         self.raiz.title('Ver info')
-        
+        self.grafo = ''
 
 
 
@@ -34,8 +35,8 @@ class Aplicacion():
         self.e1.grid(row=1, column=1)
         self.e1['width']=40
         
-
-        self.tinfo = Text(self.raiz)
+        
+        self.tinfo = scrolledtext.ScrolledText(self.raiz)
         self.tinfo.grid(row=2, column=1) 
         self.tinfo['width']=40
         self.tinfo['height']=5 
@@ -56,6 +57,7 @@ class Aplicacion():
         self.btnQ['text'] = "Salir"
         self.btnQ.grid(row=4,column=1)
         self.btnQ['command'] = self.raiz.quit
+
         '''
         self.btnquit = Button(self.raiz, 
                                 text='Show',
@@ -64,18 +66,26 @@ class Aplicacion():
                                                                     sticky=W, 
                                                                     pady=4)
         '''
-        self.raiz.mainloop()
+        
     
     def show(self):
-        self.tinfo.insert("1.0", f'{self.e1.get()}\n')
-        print(f"First Name: {self.e1.get()}")
+        #self.tinfo.delete('1.0')
+
+        cad = f'Test #{self.cont}\n\n'
+        cad += f'entrada: {self.e1.get()}\n\n'
+        cad += 'salida: '+self.grafo.isAccept(self.e1.get())
+        self.tinfo.insert('1.0',f'{cad}\n\n')
+        print(self.grafo.isAccept('if'))
+        self.e1.delete('0', END)
+        self.cont+=1
 
     def add_grafo(self, grafo):
-        pass
+        self.grafo = grafo
+    
+        
 
 
 def main():
-    mi_app = Aplicacion()
     ejemplo = {
         'alfabeto':['i','f','t','h','e','n','l','s'],
         'estados':['q0','q1','q2','q3','q4','q5','q6','q7','qf'],
@@ -93,8 +103,9 @@ def main():
         'estado_final':['qf']
     }
     grafo =  AFD(ejemplo)
-    print(grafo)
-    print(grafo.isAccept('if'))
+    app = Aplicacion()
+    app.add_grafo(grafo)
+    app.raiz.mainloop()
     return 0
 
 if __name__ == '__main__':
