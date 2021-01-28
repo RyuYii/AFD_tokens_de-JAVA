@@ -14,7 +14,7 @@ class Aplicacion():
     def __init__(self):
         
         self.raiz = Tk()
-        self.raiz.geometry('600x500')
+        #self.raiz.geometry('600x500')
         self.cont = 0
         #self.raiz.resizable(width=False,height=False)
         self.raiz.title('Ver info')
