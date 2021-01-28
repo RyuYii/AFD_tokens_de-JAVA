@@ -7,8 +7,13 @@ class AFND:
 		self.estado_final = grafo['estado_final']
 
 	def checkLetter(self, actualState, letter):
+		print(self.transiciones[actualState].keys())
+		print('-'*50)
 		for value in self.transiciones[actualState].keys():
+			print(self.transiciones[actualState][value])
+			print()
 			if letter in self.transiciones[actualState][value]:
+				print('\t'+value)
 				return value
 		else:
 			return ''
@@ -17,25 +22,29 @@ class AFND:
 		actualState = self.estado_inicial
 		for letter in word:
 			NextState = self.checkLetter(actualState, letter)
+			#print(NextState)
 			if not NextState == '':
 				 actualState = NextState
+				 #print(actualState)
 			else:
 				actualState = self.estado_inicial
 				break
+		print(self.estado_final.keys())
 		if actualState in self.estado_final.keys():
-			print(f'Palabra: \t{word} es un numero {self.estado_final[actualState]}')
+			return(f'Palabra: \t{word} es un numero {self.estado_final[actualState]}\n')
 		else:
-			print(f'Palabra: \t{word} no aceptada')
+			return(f'Palabra: \t{word} no aceptada\n')
 		
 
 	def isAccept(self, cadena=''):
+		cad = ''
 		if(type(cadena) == str):
 			cadena = cadena.split(' ')
 		if cadena == '':
 			print('No data')
 		for word in cadena:	
-			self.checkword(word)
-			
+			cad += self.checkword(word)
+		return cad	
 
 
 	def __str__(self):
