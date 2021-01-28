@@ -7,31 +7,51 @@ class AFND:
 		self.estado_final = grafo['estado_final']
 
 	def checkLetter(self, actualState, letter):
-		print(self.transiciones[actualState].keys())
 		print('-'*50)
-		for value in self.transiciones[actualState].keys():
-			print(self.transiciones[actualState][value])
-			print()
-			if letter in self.transiciones[actualState][value]:
-				print('\t'+value)
-				return value
+		states = []
+		try:
+			for value in self.transiciones[actualState].keys():
+				if letter in self.transiciones[actualState][value]:
+					print('\t'+value)
+					states.append(value)
+			return states
+		except KeyError:
+			return states
+
+	def efe(self, pila, word):
+		if not pila :
+			return False, ''
 		else:
-			return ''
+			#print(pila)
+			#print('-'*50)
+			actualState = pila.pop()
+			for letter in range(len(word)):
+				NextState = self.checkLetter(actualState, word[letter])
+				#print(NextState)
+				if len(NextState) >= 2:
+					try:
+						return self.efe(NextState, word[letter+1:])
+					except:
+						return False, ''
+				elif len(NextState) == 1:
+					actualState = NextState[0]
+				elif len(NextState) == 0 and len(pila) != 0 : 
+					return self.efe(pila, word)
+				else:
+					actualState = self.estado_inicial
+					break
+			if actualState in self.estado_final.keys():
+				return True, actualState
+			else:
+				return False, ''
 
 	def checkword(self, word):
 		actualState = self.estado_inicial
-		for letter in word:
-			NextState = self.checkLetter(actualState, letter)
-			#print(NextState)
-			if not NextState == '':
-				 actualState = NextState
-				 #print(actualState)
-			else:
-				actualState = self.estado_inicial
-				break
-		print(self.estado_final.keys())
-		if actualState in self.estado_final.keys():
-			return(f'Palabra: \t{word} es un numero {self.estado_final[actualState]}\n')
+		val, NextState = self.efe(self.checkLetter(actualState, word[0]),word[1:])
+
+		print(f'ultimo {NextState}')
+		if val:
+			return(f'Palabra: \t{word} es un {self.estado_final[NextState]}\n')
 		else:
 			return(f'Palabra: \t{word} no aceptada\n')
 		
@@ -39,7 +59,8 @@ class AFND:
 	def isAccept(self, cadena=''):
 		cad = ''
 		if(type(cadena) == str):
-			cadena = cadena.split(' ')
+			cadena = cadena.rstrip().split()
+			print(cadena)
 		if cadena == '':
 			print('No data')
 		for word in cadena:	
